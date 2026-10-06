@@ -1,49 +1,37 @@
-//ellipse variables
-let x = 0;
-let y = 0;
-let xMove = 0;
-let yMove = 0;
+let tuna;
+let goldfish;
+let fish;
 
-//fill color variables
-let r = 0;
-let g = 255;
-let b = 0;
+let currentTime=0;
+let timer1=2000;
+let timer2=4000;
 
-function setup()
-{
-	createCanvas(700, 700);
-	
-	//start ellipse at center of canvas
-	x = width / 2;
-	y = height / 2;
+async function setup()
+ {
+    createCanvas(700, 700);
+    background(127);
+	textAlign(CENTER);
+	textSize(64);
 }
-function draw()
+
+function draw() 
 {
-	background(75);
-	fill(r, g, b);
-	ellipse(x, y, 100, 100);if (x >= width || x <= 0)
+    currentTime = millis();
+
+	if(currentTime > timer2)
 	{
-		xMove = -xMove; // reverse X movement direction
+		background(255,0,0);
+		text('2', width / 2, height / 2);
 	}
-	
-	if (y >= height || y <= 0)
+	else if(currentTime > timer1)
 	{
-		yMove = -yMove; //reverse Y movement direction
+		background(0,0,255);
+		text('1', width / 2, height / 2);
 	}
-
-
-
-	//update ellipse position
-	x += xMove;
-	y += yMove;
-}   
-
-function mousePressed()
-{
-	xMove = random(-10, 10);
-	yMove = random(-10, 10);
-
-    r = random(255);
-    g = random(255);
-    b = random(255);
+	else
+	{
+		background(127);
+		text('0', width / 2, height / 2);
+	}
+	text(currentTime=""+int(mouseX), width / 2, height / 4);
 }
