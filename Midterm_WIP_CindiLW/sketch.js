@@ -1,46 +1,56 @@
+//Name: CINDILIUWU
+//move your mouse to catch the raindrops in the bottle
+//if you miss one drop, the game is over
+//if you catch 3 drops, the bottle is full and you win
+let bottle; 
+let cloud; 
 
+let bottleimage = []; // Stores bottle images with different water levels
 
-let bottle;
-let cloud;
-
+// Cloud positions
 let cloudx1 = 20;
 let cloudx2 = 520;
 let cloudx3 = 90;
 let cloudx4 = 600;
 
-let score = 0;
-let gamestate = "playing";
-let missedrain = 0;
-let watercount = 0;
-let bottleFull = 5;
+let score = 0; // Counts caught raindrops
+let gamestate = "start"; 
+let missedrain = 0; // Counts missed raindrops
 
-// Raindrop
-let rainX;
-let rainY;
-let rainSpeed = 1.2;
+let watercount = 0; // Tracks the water level
+let bottleFull = 3; // The bottle is full after 3 drops
+
+// Raindrop variables
+let rainX; 
+let rainY; 
+let rainSpeed = 1.2; // Raindrop speed 
 let rainVisible = true;
-let nextRainTime = 0;
+let nextRainTime = 0; // Time for the next raindrop
 
-// Bottle position
-let bottleX = 400;
-let bottleY = 500;
+
+let bottleX = 300; 
+let bottleY = 600; 
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(800, 800); 
 
-  bottle = loadImage('bottle.png');
-  cloud = loadImage('cloud.png');
+  
+  bottleimage[0] = loadImage("bottle.png"); // Empty bottle
+  bottleimage[1] = loadImage("bottle01.PNG"); // Bottle with some water
+  bottleimage[2] = loadImage("bottle02.PNG"); // Bottle with more water
+  bottleimage[3] = loadImage("bottle03.PNG"); // Bottle at the last water level
 
-  // Start the first raindrop
-  rainX = random(280, 520);
-  rainY = random(320, 340);
+  cloud = loadImage("cloud.png"); 
+
+  resetRain(); // first raindrop
 }
 
 function draw() {
-  // Gradient background
-  let topColor = color(16, 67, 107);
-  let bottomColor = color(0, 151, 169);
+  
+  let topColor = color(16, 67, 107); 
+  let bottomColor = color(0, 151, 169); 
 
+  // background one line at a time
   for (let y = 0; y < height; y++) {
     let inter = map(y, 0, height, 0, 1);
     let c = lerpColor(topColor, bottomColor, inter);
@@ -48,97 +58,84 @@ function draw() {
     line(0, y, width, y);
   }
 
-  // Game Over screen
+  
+  if (gamestate === "start") {
+    noStroke();
+    fill(255);
+    textAlign(CENTER, CENTER);
+
+    textSize(52);
+    text("Rainy Day", width / 2, height / 2 - 70);
+
+    textSize(24);
+    text("Catch the raindrops!", width / 2, height / 2);
+
+    textSize(28);
+    text("Click to Start", width / 2, height / 2 + 60);
+
+    return; 
+  }
+
+  
   if (gamestate === "gameover") {
-    fill(255);
-    noStroke();
-    textSize(48);
-    textAlign(CENTER, CENTER);
-    text("Game Over!", width / 2, height / 2 - 30);
-
-    textSize(24);
-    text("Final Score: " + score, width / 2, height / 2 + 20);
-    text("Click to play again", width / 2, height / 2 + 60);
+    showEndScreen("Game Over!");
     return;
   }
 
-  // Full screen
+  
   if (gamestate === "full") {
-    fill(255);
-    noStroke();
-    textSize(48);
-    textAlign(CENTER, CENTER);
-    text("The bottle is full!", width / 2, height / 2);
-
-    textSize(24);
-    text("Click to play again", width / 2, height / 2 + 60);
+    showEndScreen("The bottle is full!");
     return;
   }
 
-  // Score
-  fill(255);
+  // Display the score and missed drops
   noStroke();
+  fill(255);
   textSize(24);
   textAlign(LEFT, TOP);
   text("Score: " + score, 20, 20);
-  text("Missed: " + missedrain + "/5", 20, 50);
+  text("Missed: " + missedrain + "/1", 20, 50);
 
-  // Moving small clouds
+
   image(cloud, cloudx1, 30, 130, 78);
   image(cloud, cloudx2, 80, 180, 108);
   image(cloud, cloudx3, 160, 200, 120);
   image(cloud, cloudx4, 150, 200, 120);
+  image(cloud, 200, 50, 400, 400); // Main cloud
 
-  // Main cloud
-  image(cloud, 200, 50, 400, 400);
-
-  // Move clouds
+  // Move the clouds
   cloudx1 += 0.5;
   cloudx2 -= 0.3;
   cloudx3 += 0.5;
   cloudx4 -= 0.5;
 
-  // Reset cloud positions
-  if (cloudx1 > width) {
-    cloudx1 = -130;
-  }
+  // Move clouds back when they leave the canvas
+  if (cloudx1 > width) cloudx1 = -130;
+  if (cloudx2 < -180) cloudx2 = width;
+  if (cloudx3 > width) cloudx3 = -200;
+  if (cloudx4 < -200) cloudx4 = width;
 
-  if (cloudx2 < -180) {
-    cloudx2 = width;
-  }
-
-  if (cloudx3 > width) {
-    cloudx3 = -200;
-  }
-
-  if (cloudx4 < -200) {
-    cloudx4 = width;
-  }
-
-  // Create the next raindrop
+  // Create another raindrop after a short wait
   if (!rainVisible && millis() > nextRainTime) {
-    rainX = random(280, 520);
-    rainY = random(320, 340);
-    rainVisible = true;
+    resetRain();
   }
 
-  // Draw one raindrop
+  // Draw and move the raindrop
   if (rainVisible) {
     noStroke();
-    fill(100, 190, 255);
+    fill(100, 190, 255); 
 
-    // Round bottom
+    //  bottom of the raindrop
     ellipse(rainX, rainY + 10, 16, 20);
 
-    // Pointed top
+    // top of the raindrop
     triangle(
       rainX - 8, rainY + 5,
       rainX + 8, rainY + 5,
       rainX, rainY - 10
     );
 
-    // Move the raindrop
-    rainY += rainSpeed;
+    rainY += 4; // Move the raindrop downward
 
     // Check if the bottle catches the raindrop
     if (
@@ -148,35 +145,35 @@ function draw() {
       rainY - 10 <= bottleY + 100
     ) {
       score++;
-      watercount++;
+      watercount++; // Increase the water level
 
+      rainVisible = false; 
+      nextRainTime = millis() + 800; 
+
+      // Check if the bottle is full
+      if (watercount >= bottleFull) {
+        gamestate = "full";
+      }
+    } else if (rainY > height) {
+      // Check if the raindrop falls off the screen
       rainVisible = false;
-      nextRainTime = millis() + 800;
-    }
-    // Check if the bottle is full
-    if (watercount >= bottleFull) {
-      gamestate = "full";
-    }
+      missedrain++; // Add one missed drop
 
-    // If the raindrop misses the bottle
-    else if (rainY > height) {
-      rainVisible = false;
-      missedrain++;
-
-      if (missedrain >= 5) {
+      // End the game after one missed drop
+      if (missedrain >= 1) {
         gamestate = "gameover";
       }
 
-      nextRainTime = millis() + 800;
+      nextRainTime = millis() + 800; // Wait before the next drop
     }
   }
 
-  // Bottle follows the mouse
+  
   bottleX = constrain(mouseX, 75, width - 75);
-  bottleY = constrain(mouseY, 100, height - 100);
 
+  // Display the bottle image for the current water level
   image(
-    bottle,
+    bottleimage[watercount],
     bottleX - 75,
     bottleY - 100,
     150,
@@ -184,26 +181,50 @@ function draw() {
   );
 }
 
-// Restart the game when the mouse is clicked
+// Create a new raindrop at a random position
+function resetRain() {
+  rainX = random(280, 520); 
+  rainY = random(320, 340); 
+  rainVisible = true; 
+}
+
+// Display the end screen and final score
+function showEndScreen(message) {
+  noStroke();
+  fill(255);
+  textAlign(CENTER, CENTER);
+
+  textSize(48);
+  text(message, width / 2, height / 2 - 30);
+
+  textSize(24);
+  text("Final Score: " + score, width / 2, height / 2 + 20);
+  text("Click to play again", width / 2, height / 2 + 60);
+}
 function mousePressed() {
-  if (gamestate === "gameover" || gamestate === "full") {
+  if (gamestate === "start") {
     gamestate = "playing";
+    return;
+  }
+
+  if (gamestate === "gameover" || gamestate === "full") {
     score = 0;
     missedrain = 0;
     watercount = 0;
-    rainVisible = true;
-    rainX = random(280, 520);
-    rainY = random(320, 340);
-    nextRainTime = 0;
+    gamestate = "playing";
 
-    bottleX = 400;
-    bottleY = 500;
+    // Reset the bottle position
+    bottleX = 300;
+    bottleY = 600;
 
+    // Reset the cloud positions
     cloudx1 = 20;
     cloudx2 = 520;
     cloudx3 = 90;
     cloudx4 = 600;
+
+    // Reset the raindrop
+    nextRainTime = 0;
+    resetRain();
   }
 }
-
-
