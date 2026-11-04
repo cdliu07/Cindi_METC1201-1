@@ -92,6 +92,9 @@ function mousePressed() {
 // Press SPACE to change colors
 function keyPressed() {
   if (key === " ") {
-    colorIndex = (colorIndex + 1) % starColors.length;
+    colorIndex = colorIndex + 1;
+    if (colorIndex >= starColors.length) {
+      colorIndex = 0;
+    }
   }
 }
