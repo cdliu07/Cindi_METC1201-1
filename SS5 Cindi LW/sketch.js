@@ -37,7 +37,7 @@ function setup() {
 }
 
 function draw() {
-  background(12, 12, 45);
+  background(35, 45, 85);
 
   //  moon
   fill(255, 240, 190);
