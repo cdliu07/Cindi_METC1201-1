@@ -18,7 +18,7 @@ let smallStars = [];
 function setup() {
   createCanvas(800, 800);
 
-  // create main stars
+  // main stars
   for (let i = 0; i < 80; i++) {
     let x = random(width);
     let y = random(height);
@@ -39,12 +39,12 @@ function setup() {
 function draw() {
   background(12, 12, 45);
 
-  // Draw the moon
+  //  moon
   fill(255, 240, 190);
   noStroke();
   ellipse(650, 130, 100, 100);
 
-  // Second for loop: draw main stars
+  //  draw main stars
   for (let i = 0; i < stars.length; i++) {
     let s = stars[i];
 
@@ -68,7 +68,7 @@ function draw() {
     }
   }
 
-  // Draw small background stars
+  //  small background stars
   for (let i = 0; i < smallStars.length; i++) {
     fill(180, 190, 255, 120);
     ellipse(smallStars[i].x, smallStars[i].y, 2, 2);
@@ -92,9 +92,7 @@ function mousePressed() {
 // Press SPACE to change colors
 function keyPressed() {
   if (key === " ") {
-    colorIndex = colorIndex + 1;
-    if (colorIndex >= starColors.length) {
-      colorIndex = 0;
-    }
+    colorIndex = colorIndex + 1
+    starColors.length;
   }
 }
