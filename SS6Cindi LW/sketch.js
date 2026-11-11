@@ -42,9 +42,7 @@ function draw() {
   background(35, 45, 85);
 
   
-  fill(255, 240, 190);
-  noStroke();
-  ellipse(650, 130, 100, 100);
+ 
 
   // constellation 
   stroke(180, 200, 255, 180);
@@ -93,6 +91,9 @@ function draw() {
     ellipse(smallStars[i].x, smallStars[i].y, 2, 2);
   }
 
+   fill(255, 240, 190);
+  noStroke();
+  ellipse(650, 130, 100, 100);
   
   fill(255);
   textSize(16);
