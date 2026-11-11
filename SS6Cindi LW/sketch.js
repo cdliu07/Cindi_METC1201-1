@@ -1,4 +1,4 @@
-//Name: Cindi Liu
+//Name: Cindi Liu Wu
 //Instructions:
 //Click to create stars and connect them into constellations.
 //Move the mouse near stars to make them glow.
@@ -20,7 +20,7 @@ let constellation = [];
 function setup() {
   createCanvas(800, 800);
 
-  // Create main stars
+  // main stars
   for (let i = 0; i < 80; i++) {
     let x = random(width);
     let y = random(height);
@@ -29,7 +29,7 @@ function setup() {
     stars.push({ x: x, y: y, size: s });
   }
 
-  // small background stars
+  //  background stars
   for (let i = 0; i < 30; i++) {
     let x = random(width);
     let y = random(height);
@@ -41,12 +41,12 @@ function setup() {
 function draw() {
   background(35, 45, 85);
 
-  //  moon
+  
   fill(255, 240, 190);
   noStroke();
   ellipse(650, 130, 100, 100);
 
-  // constellation lines
+  // constellation 
   stroke(180, 200, 255, 180);
   strokeWeight(1);
 
@@ -61,13 +61,13 @@ function draw() {
 
   noStroke();
 
-  // Draw main stars
+  //  main stars
   for (let i = 0; i < stars.length; i++) {
     let s = stars[i];
 
     let d = dist(mouseX, mouseY, s.x, s.y);
 
-    // Change star size when mouse is nearby
+    // use to change star size when mouse is nearby
     if (d < 80) {
       fill(
         starColors[colorIndex][0],
@@ -93,14 +93,14 @@ function draw() {
     ellipse(smallStars[i].x, smallStars[i].y, 2, 2);
   }
 
-  // Instructions
+  
   fill(255);
   textSize(16);
   text("Click to create constellations", 20, 745);
   text("Press SPACE to change colors", 20, 775);
 }
 
-//  create a new star
+//  use tocreate a new star
 function mousePressed() {
   stars.push({
     x: mouseX,
@@ -115,8 +115,9 @@ function mousePressed() {
   });
 }
 
-// Press SPACE to change colors
+
 function keyPressed() {
+
   if (key === " ") {
     colorIndex = (colorIndex + 1) % starColors.length;
   }
