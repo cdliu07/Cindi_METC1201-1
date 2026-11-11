@@ -41,12 +41,12 @@ function setup() {
 function draw() {
   background(35, 45, 85);
 
-  // Draw moon
+  //  moon
   fill(255, 240, 190);
   noStroke();
   ellipse(650, 130, 100, 100);
 
-  // Draw constellation lines
+  // constellation lines
   stroke(180, 200, 255, 180);
   strokeWeight(1);
 
@@ -87,7 +87,7 @@ function draw() {
     }
   }
 
-  // Draw small background stars
+  //  small background stars
   for (let i = 0; i < smallStars.length; i++) {
     fill(180, 190, 255, 120);
     ellipse(smallStars[i].x, smallStars[i].y, 2, 2);
