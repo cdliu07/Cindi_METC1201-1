@@ -1,20 +1,16 @@
-
-/*
-Name: Cindi Liu Wu
-Title: Starry Sky
-Instructions:
-Click to create stars and connect them into constellations.
-Move the mouse near stars to make them glow.
-Press SPACE to change star colors.
-Building from: Short Study #5
-*/
+//Name: Cindi Liu Wu
+//Title: Starry Sky
+//Instructions:
+//Click to create stars and connect them into constellations.
+//Move the mouse near stars to make them glow.
+//Press SPACE to change star colors.
 
 // declare object arrays
 let stars = [];
 let smallStars = [];
 let constellation = [];
 
-// star colors
+
 let starColors = [
   [255, 255, 255],
   [185, 200, 255],
@@ -75,7 +71,7 @@ function draw() {
   noStroke();
   ellipse(650, 130, 100, 100);
 
-  // instructions on screen
+  // instructions 
   fill(255);
   textSize(16);
   text("Click to create constellations", 20, 745);
@@ -91,7 +87,7 @@ function mousePressed() {
   constellation.push(newStar);
 }
 
-// change star colors when SPACE is pressed
+// change star colors 
 function keyPressed() {
   if (key === " ") {
     colorIndex = (colorIndex + 1) % starColors.length;
@@ -118,7 +114,7 @@ class Star {
       starColors[colorIndex][2]
     );
 
-    // make the star glow when mouse is nearby
+    // make the star glow
     if (d < 80) {
       this.glow();
     } else {
