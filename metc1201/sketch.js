@@ -1,37 +1,25 @@
-let tuna;
-let goldfish;
-let fish;
+let icecreams = [];  //declare object array 
+icecreams.length = 100; //set array length
 
-let currentTime=0;
-let timer1=2000;
-let timer2=4000;
-
-async function setup()
- {
-    createCanvas(700, 700);
-    background(127);
-	textAlign(CENTER);
-	textSize(64);
+function setup() 
+{
+	createCanvas(500, 500);
+	//initialize objects by calling the constructor with a for loop
+	for (let i = 0; i < icecreams.length; i++) 
+	{
+		icecreams[i] = new Icecream(random(width), random(-200, height + 200), 65);
+	}
 }
 
 function draw() 
 {
-    currentTime = millis();
-
-	if(currentTime > timer2)
+	background(200);
+	//call methods on the objects 
+	//the for loop increments through each object in the array
+	for (let i = 0; i < icecreams.length; i++) 
 	{
-		background(255,0,0);
-		text('2', width / 2, height / 2);
+		icecreams[i].display();
+		icecreams[i].fall();
+		icecreams[i].grow();
 	}
-	else if(currentTime > timer1)
-	{
-		background(0,0,255);
-		text('1', width / 2, height / 2);
-	}
-	else
-	{
-		background(127);
-		text('0', width / 2, height / 2);
-	}
-	text(currentTime=""+int(mouseX), width / 2, height / 4);
 }
